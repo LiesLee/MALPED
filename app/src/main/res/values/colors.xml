@@ -1,6 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <!-- 基本颜色 -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#282828</color>
+    <color name="yellow">#feb700</color>
+    <color name="blue">#1f97f1</color>
+    <color name="red">#FF474F</color>
+    <color name="grey">#999999</color>
+    <color name="green">#3ba63a</color>
+    <color name="transparent">#00000000</color>
+    <color name="text_depth_black">#333333</color>
+    <color name="toolbar_color_defalt">#1f97f1</color>
+    <color name="text_color_defalt">#ffffff</color>
+    <color name="golden">#f29b1f</color>
+
+    <color name="bg_drawlayout">#6b6a6a</color>
+    <!-- 全局灰色主背景 -->
+    <color name="bg_grey">#f2f2f2</color>
+
+    <!--全局黑色字体-->
+    <color name="text_black">#282828</color>
+
+    <!--全局浅黑背景-->
+    <color name="bg_mild_black">#212121</color>
+
+    <!--全局深黑背景-->
+    <color name="bg_depth_black">#1c1c1c</color>
+
+    <!--全局灰色字体-->
+    <color name="text_grey">#666666</color>
+
+    <!--全局深灰字体-->
+    <color name="text_grey_mild">#666666</color>
+
+    <!--全局浅灰字体-->
+    <color name="text_grey_light">#999999</color>
+    <!--分割线-->
+    <color name="line">#dddddd</color>
+
+    <color name="text_blue">#1f97f1</color>
+    <!--MessageDialog-->
+    <color name="text_black_alert">#626262</color>
+    <color name="layout_black">#6eaaaaaa</color>
+
+    <color name="bg_forget_psw">#797778</color>
+
+    <!--分割线颜色-->
+    <color name="line_color">#dddddd</color>
+
+    <!--全局layout点击后颜色-->
+    <color name="layout_touch">#e3e3e3</color>
+
+    <!-- 银行卡管理title -->
+    <color name="bank_title">#e3e1e2</color>
+
+    <!--扫码-->
+    <color name="result_view">#b0000000</color>
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="possible_result_points">#c0ffff00</color>
+
+
+    <color name="counp_1">#F94848</color>
+    <color name="counp_2">#FFC716</color>
+    <color name="counp_3">#5892C4</color>
+    <color name="counp_4">#63BBD6</color>
+    <color name="counp_5">#FF6927</color>
+    <color name="counp_out">#CCCCCC</color>
+    <color name="legacy_primary">#6d1818</color>
+    <color name="legacy_primary_dark">#1ef8c807</color>
+
+
 </resources>
