@@ -1,0 +1,47 @@
+<!--
+  ~ Copyright (c) 2016. Ted Park. All Rights Reserved
+  -->
+
+<resources>
+
+
+
+    <!--<string name="app_name">Pictures</string>-->
+
+    <string name="progress_title">Processing..</string>
+
+    <string name="done">Done</string>
+
+
+    <string-array name="tab_titles">
+        <item>Camera</item>
+        <item>Gallery</item>
+    </string-array>
+
+
+    <string name="toolbar_title">Choice Image</string>
+    <string name="no_image">No Image</string>
+
+    <string name="selected_image">Selected Image</string>
+
+
+    <string name="max_count_msg">%1$d images selected already</string>
+    <string name="min_count_msg">you have to choice %1$d images</string>
+
+    <string name="focusing">focusing/flash...wait a minute</string>
+
+
+    <string name="default_directory">Pictures</string>
+
+    <style name="cart_dialog"
+           parent="@android:style/Theme.Holo.Light.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.6</item>
+    </style>
+</resources>

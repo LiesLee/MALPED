@@ -1,0 +1,35 @@
+<!--
+  ~ Copyright (c) 2016. Ted Park. All Rights Reserved
+  -->
+
+<resources>
+
+
+
+
+    <string name="progress_title">加载中...</string>
+
+    <string name="done">完成</string>
+
+
+    <string-array name="tab_titles">
+        <item>拍照</item>
+        <item>相册</item>
+    </string-array>
+
+
+    <string name="toolbar_title">选择图片</string>
+    <string name="no_image">还没选图片</string>
+
+    <string name="selected_image">已选择的图片</string>
+
+
+    <string name="max_count_msg">最多选择 %1$d 张图片</string>
+    <string name="min_count_msg">需要选择 %1$d 张图片</string>
+
+    <string name="focusing">刷中请稍后</string>
+
+
+    <string name="default_directory">图片</string>
+
+</resources>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:wheel="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/ll_root"
+    android:background="@drawable/shape_default_dialog_bg"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:layout_centerInParent="true"
+    android:layout_width="150dp"
+    android:layout_height="150dp">
+
+    <com.views.ProgressWheel
+        android:id="@+id/pw_custom_loading"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:visibility="visible"
+        wheel:matProg_barColor="@color/cus_golden"
+        wheel:matProg_fillRadius="false"
+        wheel:matProg_linearProgress="true" />
+
+    <TextView
+        android:id="@+id/tv_tips"
+        android:text="加载中..."
+        android:layout_margin="1dp"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

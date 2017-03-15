@@ -1,0 +1,81 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:id="@+id/ll_cat_loading"
+              android:gravity="center"
+              android:paddingLeft="30dp"
+              android:paddingRight="30dp"
+              android:paddingBottom="10dp"
+              android:paddingTop="5dp"
+              android:background="@drawable/background"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/mouse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/mouse"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+            <ImageView
+                android:id="@+id/cat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/cat"/>
+
+            <ImageView
+                android:id="@+id/eye_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3.5dp"
+                android:layout_marginTop="12.5dp"
+                android:src="@drawable/eyes"/>
+
+            <com.views.catloadinglibrary.EyelidView
+                android:id="@+id/eyelid_left"
+                android:layout_width="24dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="3.5dp"
+                android:layout_marginTop="12.5dp"
+                android:src="@drawable/eyes"/>
+
+            <ImageView
+                android:id="@+id/eye_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="28dp"
+                android:layout_marginTop="12.5dp"
+                android:src="@drawable/eyes"/>
+
+            <com.views.catloadinglibrary.EyelidView
+                android:id="@+id/eyelid_right"
+                android:layout_width="24dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="28dp"
+                android:layout_marginTop="12.5dp"
+                android:src="@drawable/eyes"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/tv_loading"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="加 载 中. . ."
+        android:textColor="#ffffff"
+        android:textSize="15dp"/>
+
+</LinearLayout>
