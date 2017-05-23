@@ -37,6 +37,8 @@ import com.views.catloadinglibrary.CatLoadingView;
 import com.views.util.ToastUtil;
 import com.views.util.ViewUtil;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -48,36 +50,32 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements View.OnClickListener, BaseView {
 
-    protected T mPresenter;
+    /** 点击返回键回调 */
+    public interface OnClickBack{
+        void onClick();
+    }
 
+    protected T mPresenter;
     /**
      * 布局的id
      */
     protected int mContentViewId;
-
-
     /**
      * 菜单的id
      */
     private int mMenuId;
-
     /**
      * Toolbar标题
      */
     private int mToolbarTitle;
-
     /**
      * 默认选中的菜单项
      */
     private int mMenuDefaultCheckedItem;
-
     /**
      * Toolbar左侧按钮的样式
      */
     private int mToolbarIndicator;
-
-
-
     protected BaseActivity baseActivity;
     /**
      * 返回键icon
@@ -92,9 +90,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
      */
     protected TextView tv_title;
     protected Toolbar toolbar;
-
     protected Dialog default_loading_dialog;
-
     protected OnClickBack onClickBack;
 
     @Override
@@ -188,7 +184,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
                 ll_goback.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        onClickBackFinishBefore();
                         if(onClickBack!=null){
                             onClickBack.onClick();
                         }else{
@@ -204,6 +199,118 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             }
 
         }
+    }
+
+    protected abstract void initView();
+
+    /**
+     * 初始化数据，在主线程
+     */
+    public abstract void initData();
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (mMenuId == -1) {
+            return false;
+        } else {
+            getMenuInflater().inflate(mMenuId, menu);
+            return true;
+        }
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home && mToolbarIndicator == -1) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                finishAfterTransition();
+            } else {
+                finish();
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(onClickBack!=null && keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0){
+            onClickBack.onClick();
+            return true;
+        }else{
+            return super.onKeyDown(keyCode, event);
+        }
+    }
+
+    /**
+     * 继承BaseView抽出显示信息通用行为
+     *
+     * @param msg 信息
+     */
+    @Override
+    public void toast(String msg) {
+        if(TextUtils.isEmpty(msg)){
+            return;
+        }
+        ToastUtil.showShortToast(this, msg);
+    }
+
+    /**
+     * 显示加载对话框
+     **/
+    public void showProgressDialog() {
+        if(default_loading_dialog == null){
+
+            default_loading_dialog = ViewsHelper.initDefaultLoadingDialog(baseActivity, new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialogInterface) {
+                    if(mPresenter!=null){
+                        mPresenter.onProgressCancel();
+                    }
+                }
+            });
+        }
+        if(!default_loading_dialog.isShowing()){
+            default_loading_dialog.show();
+        }
+    }
+
+    /**
+     * 隐藏对话框
+     **/
+    public void cancelProgressDialog() {
+        if(default_loading_dialog!=null && default_loading_dialog.isShowing()){
+            default_loading_dialog.cancel();
+        }
+    }
+
+
+    @Override
+    public void finish() {
+        super.finish();
+        ShiHuiActivityManager.getInstance().removeActivity(this);
+    }
+
+
+    @Override
+    public void showProgress(int type) {
+        if(type == 0){
+            showProgressDialog();
+        }
+
+    }
+
+    @Override
+    public void hideProgress(int type) {
+        if(type == 0){
+            cancelProgressDialog();
+        }
+    }
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     protected void setToolbarIndicator(int resId) {
@@ -240,188 +347,4 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         return getSupportActionBar();
     }
 
-    protected View getDecorView() {
-        return getWindow().getDecorView();
-    }
-
-    protected abstract void initView();
-
-    /**
-     * 初始化数据，在主线程
-     */
-    public abstract void initData();
-
-
-    public void showSnackbar(String msg) {
-        Snackbar.make(getDecorView(), msg, Snackbar.LENGTH_SHORT).show();
-    }
-
-    public void showSnackbar(int id) {
-        Snackbar.make(getDecorView(), id, Snackbar.LENGTH_SHORT).show();
-    }
-
-    public void showActivity(Activity aty, Intent it) {
-        aty.startActivity(it);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (mMenuId == -1) {
-            return false;
-        } else {
-            getMenuInflater().inflate(mMenuId, menu);
-            return true;
-        }
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home && mToolbarIndicator == -1) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                finishAfterTransition();
-            } else {
-                finish();
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            onClickBackFinishBefore();
-        }
-
-        if(onClickBack!=null && keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0){
-            onClickBack.onClick();
-            return true;
-        }else{
-            return super.onKeyDown(keyCode, event);
-        }
-    }
-
-    /**
-     * 按返回键返回关闭页面前调用
-     */
-    protected abstract void onClickBackFinishBefore();
-    /** 点击返回键回调 */
-    public interface OnClickBack{
-        void onClick();
-    }
-
-    /**
-     * 继承BaseView抽出显示信息通用行为
-     *
-     * @param msg 信息
-     */
-    @Override
-    public void toast(String msg) {
-        if(TextUtils.isEmpty(msg)){
-            return;
-        }
-        ToastUtil.showShortToast(this, msg);
-    }
-
-    public boolean isRunningApp(Context context, String packageName) {
-        boolean isAppRunning = false;
-        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH) {
-            List<ActivityManager.RunningAppProcessInfo> runningProcesses = am.getRunningAppProcesses();
-            for (ActivityManager.RunningAppProcessInfo processInfo : runningProcesses) {
-                //前台程序
-                if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
-                    for (String activeProcess : processInfo.pkgList) {
-                        if (activeProcess.equals(context.getPackageName())) {
-                            isAppRunning = true;
-                        }
-                    }
-                }
-            }
-        } else {
-            List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(10);
-            for (ActivityManager.RunningTaskInfo info : list) {
-                if (info.topActivity.getClassName().equals(packageName)) {
-                    isAppRunning = true;
-                    // find it, break
-                    break;
-                }
-            }
-        }
-        return isAppRunning;
-    }
-
-    /**
-     * 显示加载对话框
-     **/
-    public void showProgressDialog() {
-        showDefaultLoadingDialog();
-    }
-
-    /**
-     * 隐藏对话框
-     **/
-    public void cancelProgressDialog() {
-        cancelDefaultLoadingDialog();
-    }
-
-
-    @Override
-    public void finish() {
-        super.finish();
-        ShiHuiActivityManager.getInstance().removeActivity(this);
-    }
-
-    public void showShortToast(String msg) {
-        ToastUtil.showShortToast(this, msg);
-    }
-
-    public void showLongToast(String msg) {
-        ToastUtil.showLongToast(this, msg);
-    }
-
-    @Override
-    public void showProgress(int type) {
-        if(type == 0){
-            showProgressDialog();
-        }
-
-    }
-
-    @Override
-    public void hideProgress(int type) {
-        if(type == 0){
-            cancelProgressDialog();
-        }
-    }
-
-    public void showDefaultLoadingDialog(){
-        if(default_loading_dialog == null){
-
-            default_loading_dialog = ViewsHelper.initDefaultLoadingDialog(baseActivity, new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialogInterface) {
-                    if(mPresenter!=null){
-                        mPresenter.onProgressCancel();
-                    }
-                }
-            });
-
-        }
-
-        if(!default_loading_dialog.isShowing()){
-            default_loading_dialog.show();
-        }
-    }
-
-    public void cancelDefaultLoadingDialog(){
-        if(default_loading_dialog!=null && default_loading_dialog.isShowing()){
-            default_loading_dialog.cancel();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-    }
 }

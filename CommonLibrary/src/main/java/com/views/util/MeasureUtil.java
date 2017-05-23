@@ -1,12 +1,14 @@
 package com.views.util;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Point;
+import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +19,49 @@ import android.widget.ListView;
 import com.gun0912.tedpicker.R;
 import com.socks.library.KLog;
 
+import java.util.List;
+
 
 /**
  * 测量工具类
  */
 public class MeasureUtil {
+
+
+    /**
+     * app是否正在运行
+     * @param context
+     * @param packageName
+     * @return
+     */
+    public boolean isRunningApp(Context context, String packageName) {
+        boolean isAppRunning = false;
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH) {
+            List<ActivityManager.RunningAppProcessInfo> runningProcesses = am.getRunningAppProcesses();
+            for (ActivityManager.RunningAppProcessInfo processInfo : runningProcesses) {
+                //前台程序
+                if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                    for (String activeProcess : processInfo.pkgList) {
+                        if (activeProcess.equals(context.getPackageName())) {
+                            isAppRunning = true;
+                        }
+                    }
+                }
+            }
+        } else {
+            List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(10);
+            for (ActivityManager.RunningTaskInfo info : list) {
+                if (info.topActivity.getClassName().equals(packageName)) {
+                    isAppRunning = true;
+                    // find it, break
+                    break;
+                }
+            }
+        }
+        return isAppRunning;
+    }
+
 
     /**
      * 获取app版本号

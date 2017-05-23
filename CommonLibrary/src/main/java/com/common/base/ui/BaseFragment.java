@@ -1,21 +1,16 @@
 package com.common.base.ui;
 
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.common.annotation.ActivityFragmentInject;
 import com.common.base.presenter.BasePresenter;
-import com.views.ViewsHelper;
-import com.views.catloadinglibrary.CatLoadingView;
 import com.views.util.ToastUtil;
+
 
 import butterknife.ButterKnife;
 
@@ -28,12 +23,10 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment
     protected T mPresenter;
     protected View fragmentRootView;
     protected int mContentViewId;
-    public Dialog default_loading_dialog;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -84,6 +77,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment
         if (mPresenter != null) {
             mPresenter.onDestroy();
         }
+
     }
 
     public BaseFragment() {
@@ -91,28 +85,6 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment
 
     protected abstract void initView(View fragmentRootView);
     public abstract void initData();
-
-    protected void showSnackbar(String msg) {
-        Snackbar.make(fragmentRootView, msg, Snackbar.LENGTH_SHORT).show();
-    }
-
-    protected void showSnackbar(int id) {
-        Snackbar.make(fragmentRootView, id, Snackbar.LENGTH_SHORT).show();
-    }
-
-    /**
-     * 显示加载对话框
-     **/
-    public void showProgressDialog() {
-        showDefaultLoadingDialog();
-    }
-
-    /**
-     * 隐藏对话框
-     **/
-    public void cancelProgressDialog() {
-        cancelDefaultLoadingDialog();
-    }
 
     /**
      * 继承BaseView抽出显示信息通用行为
@@ -140,36 +112,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment
     }
 
 
-    @Override
-    public void onClick(View view) {
-
-    }
-
     protected View findViewById(int id){
         return fragmentRootView == null ? null : fragmentRootView.findViewById(id);
-    }
-
-    public void showDefaultLoadingDialog(){
-        if(default_loading_dialog == null){
-            default_loading_dialog = ViewsHelper.initDefaultLoadingDialog(baseActivity, new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialogInterface) {
-                    if(mPresenter!=null){
-                        mPresenter.onProgressCancel();
-                    }
-                }
-            });
-
-        }
-
-        if(!default_loading_dialog.isShowing()){
-            default_loading_dialog.show();
-        }
-    }
-
-    public void cancelDefaultLoadingDialog(){
-        if(default_loading_dialog!=null && default_loading_dialog.isShowing()){
-            default_loading_dialog.cancel();
-        }
     }
 }

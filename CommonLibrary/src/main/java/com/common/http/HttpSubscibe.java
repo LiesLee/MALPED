@@ -26,6 +26,37 @@ import rx.subscriptions.CompositeSubscription;
  * Email: LiesLee@foxmail.com
  */
 public class HttpSubscibe {
+
+    /**
+     * @param observable 请求体
+     * @param doOnSubscribeAction 请求前执行的callback
+     * @param subscribeOnScheduler 请求前执行callback所在的线程
+     * @param observeOnScheduler 响应返回后执行回调所在的线程
+     * @param isAddOnSubscriptionManager 是否添加到全局请求管理里面（管理所有请求，用于关闭移除）
+     * @param baseView 请求对应的view的标记
+     * @param subscriber 响应处理
+     * @param <T>
+     * @return Subscription
+     */
+    public static <T> Subscription subscibe(Observable<HttpResult<T>> observable, Action0 doOnSubscribeAction,
+                                            Scheduler subscribeOnScheduler, Scheduler observeOnScheduler, Boolean isAddOnSubscriptionManager,
+                                            BaseView baseView, Subscriber<HttpResult<T>> subscriber) {
+
+        Subscription subscription = observable.subscribeOn(Schedulers.io())
+                .observeOn(observeOnScheduler)
+                .unsubscribeOn(Schedulers.io())
+                .doOnSubscribe(doOnSubscribeAction)
+                .subscribeOn(subscribeOnScheduler)
+                .subscribe(subscriber);
+
+        //后台请求放到SubscriptionManager,关闭dialog需要取消的放到cancelUnsubscribes
+        if (subscription != null && isAddOnSubscriptionManager && baseView != null) {
+            SubscriptionManager.getInstance().add(baseView, subscription);
+        }
+        return subscription;
+    }
+
+
     /**
      * 订阅网络请求
      * @param context

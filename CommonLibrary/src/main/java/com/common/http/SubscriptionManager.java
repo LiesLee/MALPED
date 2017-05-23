@@ -63,6 +63,7 @@ public class SubscriptionManager {
             CompositeSubscription list = httpSubscription.get(baseView);
             if (list != null){
                 list.unsubscribe();
+                httpSubscription.remove(baseView);
             }
         }
     }
