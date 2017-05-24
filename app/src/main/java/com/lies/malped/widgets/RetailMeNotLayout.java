@@ -334,8 +334,12 @@ public class RetailMeNotLayout extends FrameLayout {
                 scrollerStartScroll(touchUpScrollY, childTotalHeight - touchUpScrollY, animationTime);
             } else {
                 int currIndex = 0;
-                scrollerStartScroll(touchUpScrollY, -touchUpScrollY + currIndex * childNormalHeight, animationTime);
+                scrollerStartScroll(touchUpScrollY, -touchUpScrollY + currIndex * childNormalHeight, 0);
             }
+        }
+
+        for (OnScrollChangedListener c : scrollCallbacks) {
+            c.onScroll(realIndex, realPercent);
         }
     }
 
