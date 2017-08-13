@@ -1,5 +1,6 @@
 package com.lies.malped.module.main.ui.activity;
 
+import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -28,6 +29,22 @@ public class AppleActivity extends BaseActivity<BasePresenterImpl> implements Ba
         GridLayoutManager mGridLayoutManager = new GridLayoutManager(baseActivity, 4);
         rv_imgs.setLayoutManager(mGridLayoutManager);
         rv_imgs.setAdapter(mAdapter);
+        findViewById(R.id.tv_apple).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(baseActivity, WebViewActivity.class);
+                intent.putExtra("url","file:///android_asset/test.html");
+                startActivity(intent);
+            }
+        });
+        findViewById(R.id.ib_apple).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(baseActivity, WebViewActivity.class);
+                intent.putExtra("url","file:///android_asset/dist/index.html");
+                startActivity(intent);
+            }
+        });
 
     }
 

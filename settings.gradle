@@ -1,1 +1,1 @@
-include ':app', ':CommonLibrary', ':scrollable', ':Ultra-Pull-To-Refresh'
+include ':app', ':CommonLibrary', ':scrollable', ':Ultra-Pull-To-Refresh', ':KotlinTest'

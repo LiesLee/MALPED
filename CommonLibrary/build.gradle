@@ -9,7 +9,7 @@ group = 'com.github.ParkSangGwon'*/
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '25.0.0'
+    buildToolsVersion '26'
 
     defaultConfig {
         minSdkVersion 15
