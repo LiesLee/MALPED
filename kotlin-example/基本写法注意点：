@@ -1,0 +1,35 @@
+1、基本数据类型转换:
+    //不可隐试转换
+    val aInt : Int = 1
+    val aLong : Long = aInt.toLong()
+2、字符串注意点：
+    \$ 字符串模板 (打印"$"用\$)
+    val a = 1
+    val b = 2
+    println("$a + $b = ${a + b}")   //1 + 2 = 3
+
+    原始字符串
+    val rawString = """     """
+    原始字符串\$不能转译输出$， (因为是特殊模板)
+
+2、对象与类：
+    所有对象的父类是Any  ， 类似java的object
+    每次对象被创建会掉用init(){}函数
+
+
+    空类型安全: ?表示可空类型  !!表示确定不可空直接执行
+    val name : String + getName() ?: return; //getName为空直接返回
+    val value:String? = "HelloWord"
+    println(value!!.length) //确定执行value.length
+
+    类型判断
+    is就是Java的 instanceof
+
+    类型转换 as
+    安全类型转换 as?
+    child:Child? = parent as? Child //如果parent是child类型就可转换，否则赋值null给child
+    println(child) //这里如果parent不是Child类型，输出的是null
+
+3、区间Range（IntRange、LongRange等等的类型）
+    val range:IntRange = 0..1024 //表示range的值为0到1024（开区间）  闭区间的写法是0 until 1024(表示range的值为0到1023)
+    50 in range 的写法等价于 range.contains(50)
